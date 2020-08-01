@@ -1,0 +1,46 @@
+﻿<Window x:Class="youheng.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:youheng"
+        mc:Ignorable="d"
+        Title="优恒软件" Height="600" Width="800" Topmost="True" Icon="Safari Silver.ico">
+    <Grid Margin="10,10,10,10">
+
+
+
+        <Canvas Margin="-1">
+
+            <TabControl x:Name="tabControl" Height="531" Canvas.Left="10" Canvas.Top="10" Width="754">
+                <TabItem Header="导入转换" FontSize="18" Margin="10,10,-46,-33">
+                    <Grid Background="#FFE5E5E5" Margin="0,10,-1,-2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnAdd" Content="选择导入文件" Width="165" FontSize="18" Click="btnAdd_Click" Margin="37,59,547,370"/>
+                        <Label x:Name="txtlabel" Content="请先选择要导入的数据" FontSize="18" Margin="37,163,506,121"/>
+                        <Button x:Name="btnExl" Content="解析转换为xls文档" Width="165" FontSize="18" Height="59" Click="btnExl_Click" Margin="263,59,321,370"/>
+                        <TextBox x:Name="textBox" TextWrapping="Wrap" Text="准备显示分析结果" FontSize="12" VerticalScrollBarVisibility="Auto" Margin="263,136,10,10"/>
+                        <ProgressBar x:Name="pro1" HorizontalAlignment="Left" Height="59" Margin="469,59,0,0" VerticalAlignment="Top" Width="259"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="正在开发" FontSize="18" Margin="0,10,-47,-33" HorizontalAlignment="Right" Width="120">
+                    <Grid Background="#FFE5E5E5" Margin="0,10,0,0">
+                        <Label x:Name="label" Content="正在开发中" HorizontalAlignment="Left" Margin="132,67,0,0" VerticalAlignment="Top" Height="49" Width="259"/>
+                        <Calendar HorizontalAlignment="Left" Margin="466,46,0,0" VerticalAlignment="Top" Height="179" Width="226"/>
+                        <GroupBox x:Name="groupBox" Header="工具区域" HorizontalAlignment="Left" Height="335" Margin="34,116,0,0" VerticalAlignment="Top" Width="451"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="关于我们" FontSize="18" Margin="48,10,-84,-33">
+                    <Grid Background="#FFE5E5E5" Margin="2,10,-3,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="image" HorizontalAlignment="Left" Height="304" Margin="188,97,0,0" VerticalAlignment="Top" Width="322" Source="微信图片_20200801100742.jpg"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Canvas>
+    </Grid>
+</Window>
