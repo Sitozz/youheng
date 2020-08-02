@@ -18,11 +18,12 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Button x:Name="btnAdd" Content="选择导入文件" Width="165" FontSize="18" Click="btnAdd_Click" Margin="37,59,547,370"/>
-                        <Label x:Name="txtlabel" Content="请先选择要导入的数据" FontSize="18" Margin="37,163,506,121"/>
-                        <Button x:Name="btnExl" Content="解析转换为xls文档" Width="165" FontSize="18" Height="59" Click="btnExl_Click" Margin="263,59,321,370"/>
+                        <Button x:Name="btnAdd" Content="1.选择导入文件" Width="165" FontSize="18" Click="btnAdd_Click" Margin="10,59,574,370"/>
+                        <Label x:Name="txtlabel" Content="请先选择要导入的数据" FontSize="18" Margin="10,230,502,10"/>
+                        <Button x:Name="btnExl" Content="3.解析为xls文档" FontSize="18" Height="59" Click="btnExl_Click" Margin="263,59,312,370"/>
                         <TextBox x:Name="textBox" TextWrapping="Wrap" Text="准备显示分析结果" FontSize="12" VerticalScrollBarVisibility="Auto" Margin="263,136,10,10"/>
                         <ProgressBar x:Name="pro1" HorizontalAlignment="Left" Height="59" Margin="469,59,0,0" VerticalAlignment="Top" Width="259"/>
+                        <Button x:Name="button" Content="2.过滤读入数据" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" Width="165" Height="60" Click="button_Click"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="正在开发" FontSize="18" Margin="0,10,-47,-33" HorizontalAlignment="Right" Width="120">

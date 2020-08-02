@@ -42,8 +42,8 @@ namespace youheng
             if (ListTxt.Count > 0)
             {
                 ToDataClass();
+                txtlabel.Content = $"共计找到【{ListTxt.Count}】条记录\r\n其中有效数据【{ListRowa.Count}】条\r\n";
             }
-            txtlabel.Content = $"共计找到【{ListTxt.Count}】条记录\r\n其中有效数据【{ListRowa.Count}】条";
         }
 
         public void readFIle()
@@ -60,8 +60,20 @@ namespace youheng
                     {
                         lineCount++;
                         string temp = sr.ReadLine();
+                        temp = System.Text.RegularExpressions.Regex.Replace(temp, " \\u007C| ", string.Empty);
                         if (temp != "")
-                            ListTxt.Add(temp);
+                        {
+                            if (temp.Contains("----"))
+                            {
+                                ListTxt.Add(temp);
+                            }
+                            else 
+                            {
+                                ListTxt[ListTxt.Count-1] += temp;
+                            }
+
+                        }
+
                     }
                 }
                 this.textBox.Text = "准备显示分析转换结果";
@@ -73,8 +85,8 @@ namespace youheng
         {
             if (ListRowa == null || ListRowa.Count == 0)
             {
-                this.textBox.Text = "没有导入数据源txt文档或没找到有效数据\r\n 请重新选择数据源";
-                
+                this.txtlabel.Content = "没有导入数据源txt文档\r\n没找到有效数据\r\n 请重新选择数据源";
+
             }
             else
             {
@@ -90,11 +102,13 @@ namespace youheng
         private void update()
         {
             this.textBox.Text = "";
+            this.pro1.Value = 0;
             var h = new Thread(() =>
             {
-           var v = Math.Round(((double)100 / ListRowa.Count), 2);
+                var v = Math.Round(((double)100 / ListRowa.Count), 2);
 
-                ListRowa.ForEach(r => {
+                ListRowa.ForEach(r =>
+                {
                     this.Dispatcher.BeginInvoke((Action)(() =>
                     {
                         this.textBox.AppendText($"【{r.Name}】【{r.Id}】{r.Lianxi }\r\n");
@@ -108,7 +122,7 @@ namespace youheng
                 }));
             });
             h.Start();
-            
+
         }
 
         private void ToDataClass()
@@ -119,19 +133,22 @@ namespace youheng
                 string[] strArr = item.Split(new[] { "----" }, StringSplitOptions.None);
                 if (strArr.Length == 3)
                 {
-                    if (strArr[2] != "" && strArr[2] != "×")
+                    if (strArr[2] != "" && strArr[2] != "×" && !strArr[2].Contains("新客户") && !strArr[2].Contains("value=") && strArr[2].Length > 6)
                     {
-                        var v = new Rowa();
+
+                        Rowa v = null;
+                        v = new Rowa();
                         v.Name = strArr[0];
                         v.Id = strArr[1];
                         v.TypeName = null;
                         v.Lianxi = $"信息：{strArr[2]}";
                         ListRowa.Add(v);
+
                     }
                 }
                 else if (strArr.Length == 5)
                 {
-                    if (strArr[2] != "×" || strArr[3] != "×"|| strArr[4] != "×")
+                    if ((strArr[2] != "×" && strArr[2] != "无") || (strArr[3] != "×" && strArr[3] != "无") || (strArr[4] != "×" && strArr[4] != "无"))
                     {
                         var v = new Rowa();
                         v.Name = strArr[0];
@@ -139,7 +156,7 @@ namespace youheng
                         v.TypeName = null;
                         string st = "";
                         strArr.Skip(2).Where(r => r.Length > 1).ToList()
-                            .ForEach(r => st+=r);
+                            .ForEach(r => st += r);
                         v.Lianxi = $"信息：【{st}】";
                         ListRowa.Add(v);
                     }
@@ -147,7 +164,7 @@ namespace youheng
             }
         }
 
-        public void saveList() 
+        public void saveList()
         {
             string savedPath = Core.CreateXlsWorkBook()
                 .FillSheet("查询信息导入模板", ListRowa,//填充第一个表格
@@ -156,11 +173,25 @@ namespace youheng
                {
                 {"证件号",p=>p.Id },{"案人姓名",p=>p.Name },{"信息类型",p=>p.TypeName},{"信息内容",p=>p.Lianxi },{"备注",p=>p.Beizhu }
                })
-                .SaveToFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "案人数据导入模板.xls"));
+                .SaveToFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory+"data\\", "案人数据导入模板.xls"));
         }
 
-            
-        
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            if (ListRowa == null || ListRowa.Count == 0)
+            {
+                this.txtlabel.Content = "没有导入数据源txt文档\r\n没找到有效数据\r\n 请重新选择数据源";
+
+            }
+            else
+            {
+                ListRowa = ListRowa.Distinct(new RowaComparer()).ToList();
+                this.txtlabel.Content += $"过滤重复数据\r\n剩余【{ListRowa.Count}】条有效数据";
+            }
+
+        }
+
+
     }
 
 }
